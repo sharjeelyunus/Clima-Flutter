@@ -1,7 +1,7 @@
+import 'package:clima/screens/city_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
-import 'package:clima/services/weather.dart';
-import 'city_screen.dart';
+import '../services/weather.dart';
 
 class LocationScreen extends StatefulWidget {
   LocationScreen({this.locationWeather});
@@ -13,16 +13,15 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-  WeatherModel weather = WeatherModel();
   int temperature;
   String weatherIcon;
-  String cityName;
   String weatherMessage;
+  String cityName;
+  WeatherModel weather = WeatherModel();
 
   @override
   void initState() {
     super.initState();
-
     updateUI(widget.locationWeather);
   }
 
@@ -35,11 +34,12 @@ class _LocationScreenState extends State<LocationScreen> {
         cityName = '';
         return;
       }
-      double temp = weatherData['main']['temp'];
+      var temp = weatherData['main']['temp'];
       temperature = temp.toInt();
+      weatherMessage = weather.getMessage(temperature);
+
       var condition = weatherData['weather'][0]['id'];
       weatherIcon = weather.getWeatherIcon(condition);
-      weatherMessage = weather.getMessage(temperature);
       cityName = weatherData['name'];
     });
   }
@@ -80,9 +80,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       var typedName = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) {
-                            return CityScreen();
-                          },
+                          builder: (context) => CityScreen(),
                         ),
                       );
                       if (typedName != null) {

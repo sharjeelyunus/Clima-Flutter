@@ -2,7 +2,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class NetworkHelper {
-
   NetworkHelper(this.url);
 
   final String url;
@@ -14,7 +13,7 @@ class NetworkHelper {
       String data = response.body;
 
       return jsonDecode(data);
-  } else {
+    } else {
       print(response.statusCode);
     }
   }
